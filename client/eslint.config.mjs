@@ -9,11 +9,16 @@ const __dirname = dirname(__filename);
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
+  // This helps prevent some circular reference issues during resolution
+  resolvePluginsRelativeTo: __dirname, 
 });
 
 const eslintConfig = [
+  // Pull in the Next.js config via the bridge
   ...compat.extends("next/core-web-vitals"),
   {
+    // Apply Prettier rules separately to avoid clashing with the bridge
+    files: ["**/*.{js,jsx,ts,tsx}"],
     plugins: {
       prettier: prettierPlugin,
     },
@@ -22,6 +27,10 @@ const eslintConfig = [
       "prettier/prettier": "error",
     },
   },
+  {
+    // Ignore build artifacts and node_modules
+    ignores: [".next/*", "node_modules/*", "dist/*"],
+  }
 ];
 
 export default eslintConfig;
