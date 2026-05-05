@@ -6,7 +6,7 @@ export const logger = pino({
     options: {
       colorize: true,
       translateTime: 'SYS:standard', // Adds human-readable timestamps
-      ignore: 'pid,hostname',       // Cleans up the output
+      ignore: 'pid,hostname', // Cleans up the output
     },
   },
 })
